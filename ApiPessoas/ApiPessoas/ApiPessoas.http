@@ -1,0 +1,6 @@
+@ApiPessoas_HostAddress = https://localhost:7191
+
+GET {{ApiPessoas_HostAddress}}/api/PessoaModel/
+Accept: application/json
+
+###
