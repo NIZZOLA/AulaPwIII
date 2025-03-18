@@ -3,6 +3,17 @@ using Microsoft.Extensions.DependencyInjection;
 using ApiPessoas.Data;
 using ApiPessoas;
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 builder.Services.AddDbContext<ApiPessoasContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ApiPessoasContext") ?? throw new InvalidOperationException("Connection string 'ApiPessoasContext' not found.")));
 
@@ -12,7 +23,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
+app.UseCors("AllowAllOrigins");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
